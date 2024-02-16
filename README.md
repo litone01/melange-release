@@ -1,1 +1,1 @@
-# melange-release
+# heterogeneous-gpu-scripts
