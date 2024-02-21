@@ -1,0 +1,7 @@
+numpy
+transformers
+sentencepiece
+datasets
+matplotlib
+seaborn
+pulp
