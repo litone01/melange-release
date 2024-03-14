@@ -1,1 +1,49 @@
-# heterogeneous-gpu-scripts
+# Exploiting GPU Heterogeneity for Cost-Efficient LLM Serving in the Cloud
+## About
+This repository provides the implementation of the solver used in our paper.
+
+## Getting Started
+```bash
+# 1. Install the necessary dependencies
+pip install -r requirements.txt
+
+# 2. Execute the solver
+## You may navigate to the notebooks/ folder and execute the examples provided in the notebooks to how the solver works.
+
+## If you prefer to execute the solver directly, you may use the following command to execute the default example provided:
+python -m scripts.main
+```
+
+## Explanation of Inputs and Outputs
+### Inputs
+The solver requires the following inputs:
+1. `workload_distribution`: A 2D matrix obtained by analyzing the request distributions of the dataset. Herein, each row refer to one input size, each column refer to one output size and each cell correspond to the request rate for requests within that input and output size range (i.e. a bucket). Depending on the choice of *bucket size*, an example for the range of input and output sizes could be as follows:
+    - Input/Output size: 1-25, 25-100, 100-250, ...
+    - The cell at (0, 0) represents the request rate for requests with input/output size 1-25.
+    - The cell at (0, 1) represents the request rate for requests with input size 1-25 and output size 25-100.
+    - And so on ...
+2. `gpu_info`: A list of dictionaries, where each dictionary contains the following keys:
+    - 'name': The name of the GPU.
+    - 'cost': The cost of using the GPU for one hour.
+    - 'tputs': A 2D matrix where each cell represents the GPU's profiled maximum throughput and correspond to each of the request sizes in the `workload_distribution` matrix.
+3. `overall_rate`: A float representing the overall request rate of the workload.
+4. `slice_factor`: A float representing how many slices each bucket is split into. A slice factor of 16 means that each bucket is split into 16 slices.
+
+Please kindly refer to [notebook](notebooks/solver.ipynb) or [script_code](scripts/main.py) for an example of the inputs and check out our paper for more details of our methodology.
+
+### Outputs
+The solver returns a dictionary containing the following keys:
+1. The name of the GPU and the number of GPUs to use.
+2. The total cost for one hour.
+
+An example of the output is as follows:
+```json
+{
+    "A10G": 10.0,
+    "A100": 0.0,
+    "cost": 10.1
+}
+```
+This means that the solver recommends using 10 A10G GPUs and 0 A100 GPUs, which results in a total cost of 10.1 for one hour.
+
+

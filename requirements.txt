@@ -5,3 +5,4 @@ datasets
 matplotlib
 seaborn
 pulp
+huggingface_hub
