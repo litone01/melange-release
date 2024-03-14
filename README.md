@@ -1,6 +1,6 @@
 # Exploiting GPU Heterogeneity for Cost-Efficient LLM Serving in the Cloud
 ## About
-This repository provides the implementation of the solver used in our paper.
+This repository provides the implementation of the solver used in our paper. We open source this tool with the hope that it can be useful for researchers and practitioners who are interested to try it out and assist their decision making process when provisioning cloud instances.
 
 ## Getting Started
 ```bash
