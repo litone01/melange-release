@@ -16,37 +16,6 @@ class Solver:
         raise NotImplementedError
 
 
-class SingleAcceleratorSolver(Solver):
-    def __init__(self, workload_distribution, overall_rate, gpu_type, gpu_info):
-        super().__init__(workload_distribution, overall_rate, gpu_info)
-        self.gpu_type = gpu_type
-
-    def run(self, logs=False):
-        # Multiply overall rate across distribution.
-        request_rate_histogram = []
-        for i in range(len(self.workload_distribution)):
-            request_rate_histogram.append([])
-            for j in range(len(self.workload_distribution[0])):
-                request_rate_histogram[-1].append(
-                    self.workload_distribution[i][j] * self.overall_rate
-                )
-
-        # Get the request size to load mapping for this specific GPU.
-        loads = tputs_to_loads_2d(self.gpu_info[self.gpu_type]["tputs"])
-
-        # Compute aggregate load.
-        aggregate_load = 0
-        for i in range(len(request_rate_histogram)):
-            for j in range(len(request_rate_histogram[i])):
-                aggregate_load += request_rate_histogram[i][j] * loads[i][j]
-
-        num_gpus = math.ceil(aggregate_load)
-        return {
-            self.gpu_type: num_gpus,
-            "cost": num_gpus * self.gpu_info[self.gpu_type]["cost"],
-        }
-
-
 class HeteroAcceleratorSolver(Solver):
     def __init__(self, workload_distribution, overall_rate, gpu_info, slice_factor):
         super().__init__(workload_distribution, overall_rate, gpu_info)
@@ -129,7 +98,7 @@ class HeteroAcceleratorSolver(Solver):
                 )
                 <= decision_vector[j]
             )
-            
+
         # Solve the problem
         problem.solve(pulp.PULP_CBC_CMD(msg=0))
 
