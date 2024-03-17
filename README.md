@@ -1,9 +1,12 @@
 # Exploiting GPU Heterogeneity for Cost-Efficient LLM Serving in the Cloud
+
 ## About
 This repository provides the implementation of the solver used in our paper. We open source this tool with the hope that it can be useful for researchers and practitioners who are interested to try it out and assist their decision making process when provisioning cloud instances.
 
 ## Getting Started
 ```bash
+# Tested on Python 3.9.18
+
 # 1. Install the necessary dependencies
 pip install -r requirements.txt
 
@@ -26,7 +29,7 @@ The solver requires the following inputs:
     - 'name': The name of the GPU.
     - 'cost': The cost of using the GPU for one hour.
     - 'tputs': A 2D matrix where each cell represents the GPU's profiled maximum throughput and correspond to each of the request sizes in the `workload_distribution` matrix.
-3. `overall_rate`: A float representing the overall request rate of the workload.
+3. `overall_rate`: A float representing the total request rate of the workload.
 4. `slice_factor`: A float representing how many slices each bucket is split into. A slice factor of 16 means that each bucket is split into 16 slices.
 
 Please kindly refer to [notebook](notebooks/solver.ipynb) or [script_code](scripts/main.py) for an example of the inputs and check out our paper for more details of our methodology.
@@ -47,3 +50,27 @@ An example of the output is as follows:
 This means that the solver recommends using 10 A10G GPUs and 0 A100 GPUs, which results in a total cost of 10.1 for one hour.
 
 
+## Run with Your Own Dataset or GPU Information
+When you open either [notebook](notebooks/solver.ipynb) or [script_code](scripts/main.py), go to the section which executes the solver and you will find these four inputs that you need to replace with your own.
+
+### Workload Distribution
+   1. Examine your dataset of interest closely and decide on the bucket size for the input and output sizes and form an empty `workload_distribution` matrix.
+   2. Fill up the `workload_distribution` matrix by analyzing the request distributions of the dataset. As mentioned, each row should refer to one input size, each column should refer to one output size and each cell should correspond to the request rate for requests within that input and output size range (i.e. a bucket).
+
+### GPU Information
+For each GPU instance of interest, you need to provide the following information:
+   1. The name of the instance.
+   2. The cost per hour of the instance from the cloud provider.
+   3. Profile the GPU instance to obtain the maximum throughput for each cell of the request sizes in the `workload_distribution` matrix.
+
+### Overall Rate and Slice Factor
+
+ 1. Obtain an estimate of the expected total request rate and provide it as the `overall_rate`.
+ 2. Decide on the slice factor. You may try different slice factors to see how the solver's recommendation and the total cost changes.
+
+## Future work
+1. Release more scripts or tools to facilitate the process of profiling the GPUs and analyzing the dataset.
+2. Maintain a list of GPU profiles for popular GPUs to make it easier for users to use the solver. 
+
+## Citation
+TODO
