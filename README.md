@@ -30,7 +30,7 @@ The solver requires the following inputs:
     - 'cost': The cost of using the GPU for one hour.
     - 'tputs': A 2D matrix where each cell represents the GPU's profiled maximum throughput and correspond to each of the request sizes in the `workload_distribution` matrix.
 3. `overall_rate`: A float representing the total request rate of the workload.
-4. `slice_factor`: A float representing how many slices each bucket is split into. A slice factor of 16 means that each bucket is split into 16 slices.
+4. `slice_factor`: A numerical value representing how many slices each bucket is split into. A slice factor of 16 means that each bucket is split into 16 slices.
 
 Please kindly refer to [notebook](notebooks/solver.ipynb) or [script_code](scripts/main.py) for an example of the inputs and check out our paper for more details of our methodology.
 
@@ -70,7 +70,7 @@ For each GPU instance of interest, you need to provide the following information
 
 ## Future work
 1. Release more scripts or tools to facilitate the process of profiling the GPUs and analyzing the dataset.
-2. Maintain a list of GPU profiles for popular GPUs to make it easier for users to use the solver. 
+2. Maintain a list of GPU profiles for popular GPUs to make it easier for users to use the solver.
 
 ## Citation
 TODO
