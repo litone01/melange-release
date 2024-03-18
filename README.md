@@ -1,4 +1,4 @@
-# Exploiting GPU Heterogeneity for Cost-Efficient LLM Serving in the Cloud
+# Cost-Efficient LLM Serving by Exploiting GPU Heterogeneity
 
 ## About
 This repository provides the implementation of the solver used in our paper. We open source this tool with the hope that it can be useful for researchers and practitioners who are interested to try it out and assist their decision making process when provisioning cloud instances.
@@ -64,13 +64,10 @@ For each GPU instance of interest, you need to provide the following information
    3. Profile the GPU instance to obtain the maximum throughput for each cell of the request sizes in the `workload_distribution` matrix.
 
 ### Overall Rate and Slice Factor
-
  1. Obtain an estimate of the expected total request rate and provide it as the `overall_rate`.
  2. Decide on the slice factor. You may try different slice factors to see how the solver's recommendation and the total cost changes.
 
-## Future work
-1. Release more scripts or tools to facilitate the process of profiling the GPUs and analyzing the dataset.
-2. Maintain a list of GPU profiles for popular GPUs to make it easier for users to use the solver.
+## Potential To-Do List
+- [ ] Release more scripts or tools to facilitate the process of analyzing the dataset and/or profiling the GPUs.
 
-## Citation
-TODO
+- [ ] Maintain a list of GPU profiles for popular GPUs to make it easier for users to use the solver.
